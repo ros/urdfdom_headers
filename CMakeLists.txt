@@ -21,10 +21,6 @@ if(MSVC OR MSVC90 OR MSVC10)
   set(MSVC ON)
 endif (MSVC OR MSVC90 OR MSVC10)
 
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-include(SearchForTinyXML)
-
 add_subdirectory(urdf_sensor)
 add_subdirectory(urdf_model)
 add_subdirectory(urdf_model_state)
@@ -38,6 +34,5 @@ if (NOT MSVC)
   configure_file("${pkg_conf_file}.in" "${pkg_conf_file}" @ONLY)
   install(FILES ${pkg_conf_file} DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
 endif()
-
 
 message(STATUS "Configuration successful. Type make install to install urdfdom_headers.")
