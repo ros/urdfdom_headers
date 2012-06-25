@@ -172,7 +172,6 @@ public:
 
 private:
   boost::weak_ptr<Link> parent_link_;
-  boost::shared_ptr<VisualSensor> parseVisualSensor(TiXmlElement *g);
 
 };
 }
