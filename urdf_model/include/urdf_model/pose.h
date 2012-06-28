@@ -44,7 +44,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 
-#include <tinyxml.h> // FIXME: remove parser from here
+class TiXmlElement;
 
 namespace urdf{
 

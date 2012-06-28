@@ -40,12 +40,13 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <tinyxml.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
 #include "joint.h"
 #include "color.h"
+
+class TiXmlElement;
 
 namespace urdf{
 
