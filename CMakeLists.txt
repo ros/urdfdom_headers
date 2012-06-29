@@ -2,8 +2,8 @@ cmake_minimum_required( VERSION 2.8 FATAL_ERROR )
 project (urdfdom_headers)
 
 set (URDF_MAJOR_VERSION 0)
-set (URDF_MINOR_VERSION 1)
-set (URDF_PATCH_VERSION 4)
+set (URDF_MINOR_VERSION 2)
+set (URDF_PATCH_VERSION 0)
 
 set (URDF_VERSION ${URDF_MAJOR_VERSION}.${URDF_MINOR_VERSION}.${URDF_PATCH_VERSION})
 
@@ -18,6 +18,7 @@ endif (MSVC OR MSVC90 OR MSVC10)
 add_subdirectory(urdf_sensor)
 add_subdirectory(urdf_model)
 add_subdirectory(urdf_model_state)
+add_subdirectory(urdf_exception)
 
 set(PACKAGE_NAME ${PROJECT_NAME})
 set(cmake_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake")

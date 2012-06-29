@@ -43,8 +43,7 @@
 #include <math.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
-
-class TiXmlElement;
+#include <urdf_exception/exception.h>
 
 namespace urdf{
 
@@ -58,7 +57,31 @@ public:
   double z;
 
   void clear() {this->x=this->y=this->z=0.0;};
-  void init(const std::string &vector_str);
+  void init(const std::string &vector_str)
+  { 
+    this->clear();
+    std::vector<std::string> pieces;
+    std::vector<double> xyz;
+    boost::split( pieces, vector_str, boost::is_any_of(" "));
+    for (unsigned int i = 0; i < pieces.size(); ++i){
+      if (pieces[i] != ""){
+        try {
+          xyz.push_back(boost::lexical_cast<double>(pieces[i].c_str()));
+        }
+        catch (boost::bad_lexical_cast &e) {
+          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
+        }
+      }
+    }
+    
+    if (xyz.size() != 3)
+      throw ParseError("Parser found " + boost::lexical_cast<std::string>(xyz.size())  + " elements but 3 expected while parsing vector [" + vector_str + "]");
+    
+    this->x = xyz[0];
+    this->y = xyz[1];
+    this->z = xyz[2];
+  }
+  
   Vector3 operator+(Vector3 vec)
   {
     return Vector3(this->x+vec.x,this->y+vec.y,this->z+vec.z);
@@ -121,8 +144,14 @@ public:
 
   double x,y,z,w;
 
-  void init(const std::string &rotation_str);
-
+  void init(const std::string &rotation_str)
+  { 
+    this->clear();
+    Vector3 rpy;
+    rpy.init(rotation_str);
+    setFromRPY(rpy.x, rpy.y, rpy.z);
+  }
+  
   void clear() { this->x=this->y=this->z=0.0;this->w=1.0; }
 
   void normalize()
@@ -212,7 +241,6 @@ public:
     this->position.clear();
     this->rotation.clear();
   };
-  void initXml(TiXmlElement* xml);
 };
 
 }

@@ -76,14 +76,13 @@ public:
         }
         catch (boost::bad_lexical_cast &e)
         {
-          throw("color rgba element ("+pieces[i]+") is not a valid float");
+          return false;
         }
       }
     }
 
     if (rgba.size() != 4)
     {
-      //ROS_ERROR("Color contains %i elements instead of 4 elements", (int)rgba.size());
       return false;
     }
 

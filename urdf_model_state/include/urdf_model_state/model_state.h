@@ -34,19 +34,8 @@
 
 /* Author: John Hsu */
 
-/* encapsulates the states of a model, scene or link
-   see http://ros.org/wiki/urdf/XML/scene_state and
-       http://ros.org/wiki/urdf/XML/model_state
-   for details
-*/
-/* examples
-
-
-
-*/
-
-#ifndef URDF_STATE_H
-#define URDF_STATE_H
+#ifndef URDF_MODEL_STATE_H
+#define URDF_MODEL_STATE_H
 
 #include <string>
 #include <vector>
@@ -57,7 +46,6 @@
 #include "urdf_model/pose.h"
 #include <urdf_model_state/twist.h>
 
-class TiXmlElement;
 
 namespace urdf{
 
@@ -135,8 +123,6 @@ public:
   std::string name;
 
   Time time_stamp;
-
-  void initXml(TiXmlElement* config);
 
   void clear()
   {

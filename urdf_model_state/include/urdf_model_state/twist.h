@@ -43,8 +43,6 @@
 #include <math.h>
 #include <urdf_model/pose.h>
 
-class TiXmlElement;
-
 namespace urdf{
 
 
@@ -62,7 +60,6 @@ public:
     this->linear.clear();
     this->angular.clear();
   };
-  void initXml(TiXmlElement* xml);
 };
 
 }

@@ -46,8 +46,6 @@
 #include "joint.h"
 #include "color.h"
 
-class TiXmlElement;
-
 namespace urdf{
 
 class Geometry
@@ -55,8 +53,9 @@ class Geometry
 public:
   enum {SPHERE, BOX, CYLINDER, MESH} type;
 
-  virtual void initXml(TiXmlElement *) = 0;
-
+  virtual ~Geometry(void)
+  {
+  }  
 };
 
 class Sphere : public Geometry
@@ -69,7 +68,6 @@ public:
   {
     radius = 0;
   };
-  void initXml(TiXmlElement *);
 };
 
 class Box : public Geometry
@@ -82,7 +80,6 @@ public:
   {
     this->dim.clear();
   };
-  void initXml(TiXmlElement *);
 };
 
 class Cylinder : public Geometry
@@ -97,7 +94,6 @@ public:
     length = 0;
     radius = 0;
   };
-  void initXml(TiXmlElement *);
 };
 
 class Mesh : public Geometry
@@ -115,8 +111,6 @@ public:
     scale.y = 1;
     scale.z = 1;
   };
-  void initXml(TiXmlElement *);
-  bool fileExists(std::string filename);
 };
 
 class Material
@@ -133,7 +127,6 @@ public:
     texture_filename.clear();
     name.clear();
   };
-  void initXml(TiXmlElement* config);
 };
 
 class Inertial
@@ -150,7 +143,6 @@ public:
     mass = 0;
     ixx = ixy = ixz = iyy = iyz = izz = 0;
   };
-  void initXml(TiXmlElement* config);
 };
 
 class Visual
@@ -171,7 +163,6 @@ public:
     geometry.reset();
     this->group_name.clear();
   };
-  void initXml(TiXmlElement* config);
   std::string group_name;
 };
 
@@ -188,7 +179,6 @@ public:
     geometry.reset();
     this->group_name.clear();
   };
-  void initXml(TiXmlElement* config);
   std::string group_name;
 };
 
@@ -223,13 +213,12 @@ public:
   std::vector<boost::shared_ptr<Joint> > child_joints;
   std::vector<boost::shared_ptr<Link> > child_links;
 
-  void initXml(TiXmlElement* config);
-
   boost::shared_ptr<Link> getParent() const
   {return parent_link_.lock();};
 
-  void setParent(boost::shared_ptr<Link> parent);
-
+  void setParent(const boost::shared_ptr<Link> &parent)
+  { parent_link_ = parent; }
+  
   void clear()
   {
     this->name.clear();
@@ -241,14 +230,28 @@ public:
     this->child_links.clear();
     this->collision_groups.clear();
   };
+
+  boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > > getVisuals(const std::string& group_name) const
+  {
+    if (this->visual_groups.find(group_name) != this->visual_groups.end())
+      return this->visual_groups.at(group_name);
+    return boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > >();
+  }
+
+  boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > > getCollisions(const std::string& group_name) const
+  {
+    if (this->collision_groups.find(group_name) != this->collision_groups.end())
+      return this->collision_groups.at(group_name);
+    return boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > >();
+  }
+  
+  /*
   void setParentJoint(boost::shared_ptr<Joint> child);
   void addChild(boost::shared_ptr<Link> child);
   void addChildJoint(boost::shared_ptr<Joint> child);
 
-  void addVisual(std::string group_name, boost::shared_ptr<Visual> visual);
-  boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > > getVisuals(const std::string& group_name) const;
-  void addCollision(std::string group_name, boost::shared_ptr<Collision> collision);
-  boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > > getCollisions(const std::string& group_name) const;
+
+  */
 private:
   boost::weak_ptr<Link> parent_link_;
 
