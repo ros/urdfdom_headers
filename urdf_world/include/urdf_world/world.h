@@ -34,107 +34,81 @@
 
 /* Author: John Hsu */
 
-#ifndef URDF_MODEL_STATE_H
-#define URDF_MODEL_STATE_H
+/* encapsulates components in a world
+   see http://ros.org/wiki/usdf/XML/urdf_world and
+   for details
+*/
+/* example scene XML
+
+  <scene name="pr2_with_table">
+    <!-- include the models referenced above
+         by including the complete urdf or referencing
+         the file name.
+      -->
+    <model name="pr2">
+      ...
+    </model>
+    <include filename="table.urdf" model_name="table_model"/>
+
+    <!-- models in the scene -->
+    <entity model="pr2" name="prj">
+      <origin xyz="0 1 0" rpy="0 0 0"/>
+      <twist linear="0 0 0" angular="0 0 0"/>
+    </entity>
+    <entity model="pr2" name="prk">
+      <origin xyz="0 2 0" rpy="0 0 0"/>
+      <twist linear="0 0 0" angular="0 0 0"/>
+    </entity>
+    <entity model="table_model">
+      <origin xyz="0 3 0" rpy="0 0 0"/>
+      <twist linear="0 0 0" angular="0 0 0"/>
+    </entity>
+
+  </scene>
+
+*/
+
+#ifndef USDF_STATE_H
+#define USDF_STATE_H
 
 #include <string>
 #include <vector>
 #include <map>
+#include <tinyxml.h>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
+#include "urdf_model/model.h"
 #include "urdf_model/pose.h"
-#include <urdf_model/twist.h>
-
+#include "urdf_model/twist.h"
 
 namespace urdf{
 
-class Time
+class Entity
 {
 public:
-  Time() { this->clear(); };
-
-  void set(double _seconds)
-  {
-    this->sec = (int32_t)(floor(_seconds));
-    this->nsec = (int32_t)(round((_seconds - this->sec) * 1e9));
-    this->Correct();
-  };
-
-  operator double ()
-  {
-    return (static_cast<double>(this->sec) +
-            static_cast<double>(this->nsec)*1e-9);
-  };
-
-  int32_t sec;
-  int32_t nsec;
-
-  void clear()
-  {
-    this->sec = 0;
-    this->nsec = 0;
-  };
-private:
-  void Correct()
-  {
-    // Make any corrections
-    if (this->nsec >= 1e9)
-    {
-      this->sec++;
-      this->nsec = (int32_t)(this->nsec - 1e9);
-    }
-    else if (this->nsec < 0)
-    {
-      this->sec--;
-      this->nsec = (int32_t)(this->nsec + 1e9);
-    }
-  };
+  boost::shared_ptr<ModelInterface> model;
+  Pose origin;
+  Twist twist;
 };
 
-
-class JointState
+class World
 {
 public:
-  JointState() { this->clear(); };
+  World() { this->clear(); };
 
-  /// joint name
-  std::string joint;
-
-  std::vector<double> position;
-  std::vector<double> velocity;
-  std::vector<double> effort;
-
-  void clear()
-  {
-    this->joint.clear();
-    this->position.clear();
-    this->velocity.clear();
-    this->effort.clear();
-  }
-};
-
-class ModelState
-{
-public:
-  ModelState() { this->clear(); };
-
-  /// state name must be unique
+  /// world name must be unique
   std::string name;
 
-  Time time_stamp;
+  std::vector<ModelPtr> models_;
+
+  void initXml(TiXmlElement* config);
 
   void clear()
   {
     this->name.clear();
-    this->time_stamp.set(0);
-    this->joint_states.clear();
   };
-
-  std::vector<boost::shared_ptr<JointState> > joint_states;
-
 };
-
 }
 
 #endif

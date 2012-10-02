@@ -34,105 +34,32 @@
 
 /* Author: John Hsu */
 
-#ifndef URDF_MODEL_STATE_H
-#define URDF_MODEL_STATE_H
+#ifndef URDF_TWIST_H
+#define URDF_TWIST_H
 
 #include <string>
+#include <sstream>
 #include <vector>
-#include <map>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
-
-#include "urdf_model/pose.h"
-#include <urdf_model/twist.h>
-
+#include <math.h>
+#include <urdf_model/pose.h>
 
 namespace urdf{
 
-class Time
+
+class Twist
 {
 public:
-  Time() { this->clear(); };
+  Twist() { this->clear(); };
 
-  void set(double _seconds)
-  {
-    this->sec = (int32_t)(floor(_seconds));
-    this->nsec = (int32_t)(round((_seconds - this->sec) * 1e9));
-    this->Correct();
-  };
-
-  operator double ()
-  {
-    return (static_cast<double>(this->sec) +
-            static_cast<double>(this->nsec)*1e-9);
-  };
-
-  int32_t sec;
-  int32_t nsec;
+  Vector3  linear;
+  // Angular velocity represented by Euler angles
+  Vector3  angular;
 
   void clear()
   {
-    this->sec = 0;
-    this->nsec = 0;
+    this->linear.clear();
+    this->angular.clear();
   };
-private:
-  void Correct()
-  {
-    // Make any corrections
-    if (this->nsec >= 1e9)
-    {
-      this->sec++;
-      this->nsec = (int32_t)(this->nsec - 1e9);
-    }
-    else if (this->nsec < 0)
-    {
-      this->sec--;
-      this->nsec = (int32_t)(this->nsec + 1e9);
-    }
-  };
-};
-
-
-class JointState
-{
-public:
-  JointState() { this->clear(); };
-
-  /// joint name
-  std::string joint;
-
-  std::vector<double> position;
-  std::vector<double> velocity;
-  std::vector<double> effort;
-
-  void clear()
-  {
-    this->joint.clear();
-    this->position.clear();
-    this->velocity.clear();
-    this->effort.clear();
-  }
-};
-
-class ModelState
-{
-public:
-  ModelState() { this->clear(); };
-
-  /// state name must be unique
-  std::string name;
-
-  Time time_stamp;
-
-  void clear()
-  {
-    this->name.clear();
-    this->time_stamp.set(0);
-    this->joint_states.clear();
-  };
-
-  std::vector<boost::shared_ptr<JointState> > joint_states;
-
 };
 
 }

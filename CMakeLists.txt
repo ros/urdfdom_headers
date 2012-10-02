@@ -18,6 +18,7 @@ endif (MSVC OR MSVC90 OR MSVC10)
 add_subdirectory(urdf_sensor)
 add_subdirectory(urdf_model)
 add_subdirectory(urdf_model_state)
+add_subdirectory(urdf_world)
 add_subdirectory(urdf_exception)
 
 set(PACKAGE_NAME ${PROJECT_NAME})
