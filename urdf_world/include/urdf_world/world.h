@@ -41,10 +41,9 @@
 /* example world XML
 
 <world name="pr2_with_table">
-  <!-- include the models referenced above
-       by including the complete urdf or referencing
-       the file name.
-    -->
+  <!-- include the models by including
+       either the complete urdf or
+       referencing the file name.  -->
   <model name="pr2">
     ...
   </model>
