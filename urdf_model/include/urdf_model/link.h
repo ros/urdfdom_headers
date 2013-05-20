@@ -245,13 +245,6 @@ public:
     return boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > >();
   }
   
-  /*
-  void setParentJoint(boost::shared_ptr<Joint> child);
-  void addChild(boost::shared_ptr<Link> child);
-  void addChildJoint(boost::shared_ptr<Joint> child);
-
-
-  */
 private:
   boost::weak_ptr<Link> parent_link_;
 
