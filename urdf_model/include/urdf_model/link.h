@@ -161,8 +161,9 @@ public:
     material_name.clear();
     material.reset();
     geometry.reset();
-    this->group_name.clear();
   };
+
+  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -177,8 +178,9 @@ public:
   {
     origin.clear();
     geometry.reset();
-    this->group_name.clear();
   };
+
+  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -206,9 +208,11 @@ public:
   std::vector<boost::shared_ptr<Visual> > visual_array;
 
   /// deprecated; please do not use this member
+  __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Visual> > > > visual_groups;
 
-  /// deprecated; please do not use this member
+  /// deprecated; please do not use this member  
+  __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Collision> > > > collision_groups;
 
   /// Parent Joint element
@@ -234,7 +238,8 @@ public:
     this->parent_joint.reset();
     this->child_joints.clear();
     this->child_links.clear();
-    this->collision_groups.clear();
+    this->collision_array.clear();
+    this->visual_array.clear();
   };
 
   __attribute__((deprecated))
