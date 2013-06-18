@@ -161,8 +161,11 @@ public:
     material_name.clear();
     material.reset();
     geometry.reset();
-    this->group_name.clear();
+    group_name.clear();
   };
+
+  // this is actually deprecated, but too many warnings are generated
+  //  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -177,8 +180,11 @@ public:
   {
     origin.clear();
     geometry.reset();
-    this->group_name.clear();
+    group_name.clear();
   };
+
+  // this is actually deprecated, but too many warnings are generated
+  //  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -199,10 +205,20 @@ public:
   /// collision element
   boost::shared_ptr<Collision> collision;
 
-  /// a collection of visual elements, keyed by a string tag called "group"
-  std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Visual> > > > visual_groups;
+  /// if more than one collision element is specified, all collision elements are placed in this array (the collision member will be NULL)
+  std::vector<boost::shared_ptr<Collision> > collision_array;
 
-  /// a collection of collision elements, keyed by a string tag called "group"
+  /// if more than one visual element is specified, all visual elements are placed in this array (the visual member will be NULL)
+  std::vector<boost::shared_ptr<Visual> > visual_array;
+
+  /// deprecated; please use visual_array instead 
+  // this is actually deprecated, but too many warnings are generated
+  // __attribute__((deprecated))
+  std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Visual> > > > visual_groups;
+  
+  /// deprecated; please use collision_array instead
+  // this is actually deprecated, but too many warnings are generated
+  // __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Collision> > > > collision_groups;
 
   /// Parent Joint element
@@ -228,9 +244,14 @@ public:
     this->parent_joint.reset();
     this->child_joints.clear();
     this->child_links.clear();
+    this->collision_array.clear();
+    this->visual_array.clear();
     this->collision_groups.clear();
+    this->visual_groups.clear();
   };
 
+  // please use visual_array member instead
+  __attribute__((deprecated))
   boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > > getVisuals(const std::string& group_name) const
   {
     if (this->visual_groups.find(group_name) != this->visual_groups.end())
@@ -238,6 +259,8 @@ public:
     return boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > >();
   }
 
+  // please use collision_array member instead
+  __attribute__((deprecated))
   boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > > getCollisions(const std::string& group_name) const
   {
     if (this->collision_groups.find(group_name) != this->collision_groups.end())
