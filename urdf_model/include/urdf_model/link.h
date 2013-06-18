@@ -164,7 +164,8 @@ public:
     group_name.clear();
   };
 
-  __attribute__((deprecated))
+  // this is actually deprecated, but too many warnings are generated
+  //  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -182,7 +183,8 @@ public:
     group_name.clear();
   };
 
-  __attribute__((deprecated))
+  // this is actually deprecated, but too many warnings are generated
+  //  __attribute__((deprecated))
   std::string group_name;
 };
 
@@ -209,12 +211,14 @@ public:
   /// if more than one visual element is specified, all visual elements are placed in this array (the visual member will be NULL)
   std::vector<boost::shared_ptr<Visual> > visual_array;
 
-  /// deprecated; please use visual_array instead
-  __attribute__((deprecated))
+  /// deprecated; please use visual_array instead 
+  // this is actually deprecated, but too many warnings are generated
+  // __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Visual> > > > visual_groups;
-
+  
   /// deprecated; please use collision_array instead
-  __attribute__((deprecated))
+  // this is actually deprecated, but too many warnings are generated
+  // __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Collision> > > > collision_groups;
 
   /// Parent Joint element
