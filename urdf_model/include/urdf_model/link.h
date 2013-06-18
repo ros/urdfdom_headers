@@ -161,6 +161,7 @@ public:
     material_name.clear();
     material.reset();
     geometry.reset();
+    group_name.clear();
   };
 
   __attribute__((deprecated))
@@ -178,6 +179,7 @@ public:
   {
     origin.clear();
     geometry.reset();
+    group_name.clear();
   };
 
   __attribute__((deprecated))
@@ -240,6 +242,8 @@ public:
     this->child_links.clear();
     this->collision_array.clear();
     this->visual_array.clear();
+    this->collision_groups.clear();
+    this->visual_groups.clear();
   };
 
   __attribute__((deprecated))
