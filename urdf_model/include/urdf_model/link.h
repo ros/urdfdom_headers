@@ -209,11 +209,11 @@ public:
   /// if more than one visual element is specified, all visual elements are placed in this array (the visual member will be NULL)
   std::vector<boost::shared_ptr<Visual> > visual_array;
 
-  /// deprecated; please do not use this member
+  /// deprecated; please use visual_array instead
   __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Visual> > > > visual_groups;
 
-  /// deprecated; please do not use this member  
+  /// deprecated; please use collision_array instead
   __attribute__((deprecated))
   std::map<std::string, boost::shared_ptr<std::vector<boost::shared_ptr<Collision> > > > collision_groups;
 
@@ -246,6 +246,7 @@ public:
     this->visual_groups.clear();
   };
 
+  // please use visual_array member instead
   __attribute__((deprecated))
   boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > > getVisuals(const std::string& group_name) const
   {
@@ -254,6 +255,7 @@ public:
     return boost::shared_ptr<std::vector<boost::shared_ptr<Visual > > >();
   }
 
+  // please use collision_array member instead
   __attribute__((deprecated))
   boost::shared_ptr<std::vector<boost::shared_ptr<Collision > > > getCollisions(const std::string& group_name) const
   {
