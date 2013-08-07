@@ -205,10 +205,10 @@ public:
   /// collision element
   boost::shared_ptr<Collision> collision;
 
-  /// if more than one collision element is specified, all collision elements are placed in this array (the collision member will be NULL)
+  /// if more than one collision element is specified, all collision elements are placed in this array (the collision member points to the first element of the array)
   std::vector<boost::shared_ptr<Collision> > collision_array;
 
-  /// if more than one visual element is specified, all visual elements are placed in this array (the visual member will be NULL)
+  /// if more than one visual element is specified, all visual elements are placed in this array (the visual member points to the first element of the array)
   std::vector<boost::shared_ptr<Visual> > visual_array;
 
   /// deprecated; please use visual_array instead 
