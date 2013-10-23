@@ -61,7 +61,7 @@ public:
 class Sphere : public Geometry
 {
 public:
-  Sphere() { this->clear(); };
+  Sphere() { this->clear(); type = SPHERE; };
   double radius;
 
   void clear()
@@ -73,7 +73,7 @@ public:
 class Box : public Geometry
 {
 public:
-  Box() { this->clear(); };
+  Box() { this->clear(); type = BOX; };
   Vector3 dim;
 
   void clear()
@@ -85,7 +85,7 @@ public:
 class Cylinder : public Geometry
 {
 public:
-  Cylinder() { this->clear(); };
+  Cylinder() { this->clear(); type = CYLINDER; };
   double length;
   double radius;
 
@@ -99,7 +99,7 @@ public:
 class Mesh : public Geometry
 {
 public:
-  Mesh() { this->clear(); };
+  Mesh() { this->clear(); type = MESH; };
   std::string filename;
   Vector3 scale;
 
