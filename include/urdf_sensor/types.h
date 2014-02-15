@@ -42,10 +42,10 @@
 
 namespace urdf{
 
-class VisualSensor;
+class SensorBase;
 
 // typedef shared pointers
-typedef std::shared_ptr<VisualSensor> VisualSensorSharedPtr;
+typedef std::shared_ptr<SensorBase> SensorBaseSharedPtr;
 
 }
 
