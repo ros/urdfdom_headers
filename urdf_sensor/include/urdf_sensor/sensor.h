@@ -72,10 +72,18 @@
 
 namespace urdf{
 
-class VisualSensor
+class SensorBase {
+public:
+  enum {VISUAL, FORCE, TACTILE, IMU, GYRO, ACCELERATION, GPS} sensor_type;
+  virtual ~SensorBase(void)
+  {
+  }
+};
+
+class VisualSensor : public SensorBase
 {
 public:
-  enum {CAMERA, RAY} type;
+  enum {CAMERA, RAY, DEPTH} type;
   virtual ~VisualSensor(void)
   {
   }
@@ -148,8 +156,7 @@ public:
   Pose origin;
 
   /// sensor
-  boost::shared_ptr<VisualSensor> sensor;
-
+  boost::shared_ptr<SensorBase> sensor;
 
   /// Parent link element name.  A pointer is stored in parent_link_.
   std::string parent_link_name;
