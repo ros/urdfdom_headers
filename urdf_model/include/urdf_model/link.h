@@ -162,7 +162,10 @@ public:
     material.reset();
     geometry.reset();
     group_name.clear();
+    name.clear();
   };
+
+  std::string name;
 
   // this is actually deprecated, but too many warnings are generated
   //  __attribute__((deprecated))
@@ -181,7 +184,10 @@ public:
     origin.clear();
     geometry.reset();
     group_name.clear();
+    name.clear();
   };
+
+  std::string name;
 
   // this is actually deprecated, but too many warnings are generated
   //  __attribute__((deprecated))
