@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>urdfdom_headers</name>
-  <version>0.2.3</version>
+  <version>0.3.0</version>
   <description>Temporary package redirecting to C++ Headers for URDF. Use liburdfdom-headers-dev directly instead of this package. </description>
   <maintainer email="isucan@google.com">Ioan Sucan</maintainer>
   <maintainer email="hsu@osrfoundation.org">John Hsu</maintainer>
