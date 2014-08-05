@@ -37,10 +37,18 @@
 #ifndef URDF_INTERFACE_POSE_H
 #define URDF_INTERFACE_POSE_H
 
+//For using the M_PI macro in visual studio it 
+//is necessary to define _USE_MATH_DEFINES
+#ifdef _MSC_VER
+#ifndef _USE_MATH_DEFINE
+#define _USE_MATH_DEFINES
+#endif
+#endif
+
+#include <cmath>
 #include <string>
 #include <sstream>
 #include <vector>
-#include <math.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <urdf_exception/exception.h>

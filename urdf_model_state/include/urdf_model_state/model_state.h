@@ -49,6 +49,15 @@
 
 namespace urdf{
 
+//round is not defined in C++98
+//So in Visual Studio is necessary to define it
+#ifdef _MSC_VER
+double round(double value)
+{
+    return (value >= 0.0f)?(floor(value + 0.5f)):(ceil(value - 0.5f));
+}
+#endif
+
 class Time
 {
 public:
