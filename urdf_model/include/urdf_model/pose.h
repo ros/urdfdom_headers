@@ -40,7 +40,7 @@
 #include <string>
 #include <sstream>
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <urdf_exception/exception.h>
@@ -68,7 +68,7 @@ public:
         try {
           xyz.push_back(boost::lexical_cast<double>(pieces[i].c_str()));
         }
-        catch (boost::bad_lexical_cast &e) {
+        catch (boost::bad_lexical_cast &/*e*/) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
         }
       }
