@@ -220,6 +220,7 @@ public:
     this->limits.reset();
     this->safety.reset();
     this->calibration.reset();
+    this->mimic.reset();
     this->type = UNKNOWN;
   };
 };
