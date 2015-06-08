@@ -42,6 +42,7 @@
 #include <boost/function.hpp>
 #include <urdf_model/link.h>
 #include <urdf_exception/exception.h>
+#include <urdf_sensor/sensor.h>
 
 namespace urdf {
 
@@ -197,7 +198,7 @@ public:
   /// \brief The root is always a link (the parent of the tree describing the robot)
   boost::shared_ptr<Link> root_link_;
 
-
+  std::map<std::string, boost::shared_ptr<Sensor> > sensors_;
 
 };
 
