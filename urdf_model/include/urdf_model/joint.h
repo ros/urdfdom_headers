@@ -39,9 +39,9 @@
 
 #include <string>
 #include <vector>
-#include <boost/shared_ptr.hpp>
 
 #include "urdf_model/pose.h"
+#include "urdf_model/types.h"
 
 
 namespace urdf{
@@ -138,7 +138,7 @@ class JointCalibration
 public:
   JointCalibration() { this->clear(); };
   double reference_position;
-  boost::shared_ptr<double> rising, falling;
+  DoubleSharedPtr rising, falling;
 
   void clear()
   {
@@ -196,19 +196,19 @@ public:
   Pose  parent_to_joint_origin_transform;
 
   /// Joint Dynamics
-  boost::shared_ptr<JointDynamics> dynamics;
+  JointDynamicsSharedPtr dynamics;
 
   /// Joint Limits
-  boost::shared_ptr<JointLimits> limits;
+  JointLimitsSharedPtr limits;
 
   /// Unsupported Hidden Feature
-  boost::shared_ptr<JointSafety> safety;
+  JointSafetySharedPtr safety;
 
   /// Unsupported Hidden Feature
-  boost::shared_ptr<JointCalibration> calibration;
+  JointCalibrationSharedPtr calibration;
 
   /// Option to Mimic another Joint
-  boost::shared_ptr<JointMimic> mimic;
+  JointMimicSharedPtr mimic;
 
   void clear()
   {
