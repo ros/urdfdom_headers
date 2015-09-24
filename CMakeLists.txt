@@ -23,15 +23,15 @@ add_subdirectory(urdf_exception)
 
 set(PACKAGE_NAME ${PROJECT_NAME})
 set(cmake_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake")
-configure_file("${cmake_conf_file}.in" "${cmake_conf_file}" @ONLY)
-install(FILES ${cmake_conf_file} DESTINATION share/${PROJECT_NAME}/cmake/ COMPONENT cmake)
+configure_file("${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
+install(FILES "${CMAKE_BINARY_DIR}/${cmake_conf_file}" DESTINATION share/${PROJECT_NAME}/cmake/ COMPONENT cmake)
 
 # Make the package config file
 if (NOT MSVC)
   set(PACKAGE_DESC "Unified Robot Description Format")
   set(pkg_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/urdfdom_headers.pc")
-  configure_file("${pkg_conf_file}.in" "${pkg_conf_file}" @ONLY)
-  install(FILES ${pkg_conf_file} DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
+  configure_file("${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
+  install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
 endif()
 
 message(STATUS "Configuration successful. Type make install to install urdfdom_headers.")
