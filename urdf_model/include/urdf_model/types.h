@@ -68,6 +68,31 @@ URDF_TYPEDEF_CLASS_POINTER(Mesh);
 URDF_TYPEDEF_CLASS_POINTER(Sphere);
 URDF_TYPEDEF_CLASS_POINTER(Visual);
 
+// create *_pointer_cast functions in urdf namespace
+template<class T, class U>
+boost::shared_ptr<T> const_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::const_pointer_cast<T>(r);
+}
+
+template<class T, class U>
+boost::shared_ptr<T> dynamic_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::dynamic_pointer_cast<T>(r);
+}
+
+template<class T, class U>
+boost::shared_ptr<T> reinterpret_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::reinterpret_pointer_cast<T>(r);
+}
+
+template<class T, class U>
+boost::shared_ptr<T> static_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::static_pointer_cast<T>(r);
+}
+
 }
 
 #endif
