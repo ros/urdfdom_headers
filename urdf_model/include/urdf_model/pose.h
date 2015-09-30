@@ -49,6 +49,8 @@
 #include <string>
 #include <sstream>
 #include <vector>
+
+#include <cmath>
 #include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <urdf_exception/exception.h>
@@ -76,7 +78,7 @@ public:
         try {
           xyz.push_back(boost::lexical_cast<double>(pieces[i].c_str()));
         }
-        catch (boost::bad_lexical_cast &e) {
+        catch (boost::bad_lexical_cast &/*e*/) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
         }
       }
@@ -120,10 +122,21 @@ public:
     sqz = this->z * this->z;
     sqw = this->w * this->w;
 
-    roll  = atan2(2 * (this->y*this->z + this->w*this->x), sqw - sqx - sqy + sqz);
+    // Cases derived from https://orbitalstation.wordpress.com/tag/quaternion/
     double sarg = -2 * (this->x*this->z - this->w*this->y);
-    pitch = sarg <= -1.0 ? -0.5*M_PI : (sarg >= 1.0 ? 0.5*M_PI : asin(sarg));
-    yaw   = atan2(2 * (this->x*this->y + this->w*this->z), sqw + sqx - sqy - sqz);
+    if (sarg <= -0.99999) {
+      pitch = -0.5*M_PI;
+      roll  = 0;
+      yaw   = -2 * atan2(this->y, this->x);
+    } else if (sarg >= 0.99999) {
+      pitch = 0.5*M_PI;
+      roll  = 0;
+      yaw   = 2 * atan2(this->y, this->x);
+    } else {
+      pitch = asin(sarg);
+      roll  = atan2(2 * (this->y*this->z + this->w*this->x), sqw - sqx - sqy + sqz);
+      yaw   = atan2(2 * (this->x*this->y + this->w*this->z), sqw + sqx - sqy - sqz);
+    }
 
   };
   void setFromQuaternion(double quat_x,double quat_y,double quat_z,double quat_w)

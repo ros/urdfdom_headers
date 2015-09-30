@@ -22,14 +22,14 @@ add_subdirectory(urdf_world)
 add_subdirectory(urdf_exception)
 
 set(PACKAGE_NAME ${PROJECT_NAME})
-set(cmake_conf_file "cmake/${PROJECT_NAME}-config.cmake")
+set(cmake_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
 install(FILES "${CMAKE_BINARY_DIR}/${cmake_conf_file}" DESTINATION share/${PROJECT_NAME}/cmake/ COMPONENT cmake)
 
 # Make the package config file
 if (NOT MSVC)
   set(PACKAGE_DESC "Unified Robot Description Format")
-  set(pkg_conf_file "cmake/pkgconfig/urdfdom_headers.pc")
+  set(pkg_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/urdfdom_headers.pc")
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
   install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
 endif()

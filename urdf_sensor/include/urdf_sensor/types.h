@@ -32,70 +32,21 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Josh Faust */
+/* Author: Steve Peters */
 
-#ifndef URDF_INTERFACE_COLOR_H
-#define URDF_INTERFACE_COLOR_H
+#ifndef URDF_SENSOR_TYPES_H
+#define URDF_SENSOR_TYPES_H
 
-#include <string>
-#include <vector>
-#include <math.h>
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
+#include <boost/shared_ptr.hpp>
 
-namespace urdf
-{
 
-class Color
-{
-public:
-  Color() {this->clear();};
-  float r;
-  float g;
-  float b;
-  float a;
+namespace urdf{
 
-  void clear()
-  {
-    r = g = b = 0.0f;
-    a = 1.0f;
-  }
-  bool init(const std::string &vector_str)
-  {
-    this->clear();
-    std::vector<std::string> pieces;
-    std::vector<float> rgba;
-    boost::split( pieces, vector_str, boost::is_any_of(" "));
-    for (unsigned int i = 0; i < pieces.size(); ++i)
-    {
-      if (!pieces[i].empty())
-      {
-        try
-        {
-          rgba.push_back(boost::lexical_cast<float>(pieces[i].c_str()));
-        }
-        catch (boost::bad_lexical_cast &/*e*/)
-        {
-          return false;
-        }
-      }
-    }
+class VisualSensor;
 
-    if (rgba.size() != 4)
-    {
-      return false;
-    }
-
-    this->r = rgba[0];
-    this->g = rgba[1];
-    this->b = rgba[2];
-    this->a = rgba[3];
-
-    return true;
-  };
-};
+// typedef shared pointers
+typedef boost::shared_ptr<VisualSensor> VisualSensorSharedPtr;
 
 }
 
 #endif
-
