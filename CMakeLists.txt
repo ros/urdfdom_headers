@@ -21,16 +21,22 @@ add_subdirectory(urdf_model_state)
 add_subdirectory(urdf_world)
 add_subdirectory(urdf_exception)
 
+if(WIN32 AND NOT CYGWIN)
+  set(CMAKE_CONFIG_INSTALL_DIR CMake)
+else()
+  set(CMAKE_CONFIG_INSTALL_DIR share/${PROJECT_NAME}/cmake/)
+endif()
+
 set(PACKAGE_NAME ${PROJECT_NAME})
-set(cmake_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/${PROJECT_NAME}-config.cmake")
-configure_file("${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
-install(FILES "${CMAKE_BINARY_DIR}/${cmake_conf_file}" DESTINATION share/${PROJECT_NAME}/cmake/ COMPONENT cmake)
+set(cmake_conf_file "${PROJECT_NAME}-config.cmake")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
+install(FILES "${CMAKE_BINARY_DIR}/${cmake_conf_file}" DESTINATION ${CMAKE_CONFIG_INSTALL_DIR} COMPONENT cmake)
 
 # Make the package config file
 if (NOT MSVC)
   set(PACKAGE_DESC "Unified Robot Description Format")
-  set(pkg_conf_file "${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/urdfdom_headers.pc")
-  configure_file("${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
+  set(pkg_conf_file "urdfdom_headers.pc")
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
   install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
 endif()
 
