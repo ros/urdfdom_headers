@@ -30,7 +30,20 @@ endif()
 set(PACKAGE_NAME ${PROJECT_NAME})
 set(cmake_conf_file "${PROJECT_NAME}-config.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
-install(FILES "${CMAKE_BINARY_DIR}/${cmake_conf_file}" DESTINATION ${CMAKE_CONFIG_INSTALL_DIR} COMPONENT cmake)
+set(cmake_conf_version_file "${PROJECT_NAME}-config-version.cmake")
+# Use write_basic_package_version_file to generate a ConfigVersion file that
+# allow users of gazebo to specify the API or version to depend on
+# TODO: keep this instruction until deprecate Ubuntu/Precise and update with
+# https://github.com/Kitware/CMake/blob/v2.8.8/Modules/CMakePackageConfigHelpers.cmake
+include(WriteBasicConfigVersionFile)
+write_basic_config_version_file(
+  ${CMAKE_CURRENT_BINARY_DIR}/${cmake_conf_version_file}
+  VERSION "${URDF_VERSION}"
+  COMPATIBILITY SameMajorVersion)
+install(FILES
+  "${CMAKE_BINARY_DIR}/${cmake_conf_file}"
+  "${CMAKE_BINARY_DIR}/${cmake_conf_version_file}"
+  DESTINATION ${CMAKE_CONFIG_INSTALL_DIR} COMPONENT cmake)
 
 # Make the package config file
 if (NOT MSVC)
