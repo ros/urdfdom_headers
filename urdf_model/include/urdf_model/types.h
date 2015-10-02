@@ -40,66 +40,58 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
+#define URDF_TYPEDEF_CLASS_POINTER(Class) \
+class Class; \
+typedef boost::shared_ptr<Class> Class##SharedPtr; \
+typedef boost::shared_ptr<const Class> Class##ConstSharedPtr; \
+typedef boost::weak_ptr<Class> Class##WeakPtr
 
 namespace urdf{
 
 // shared pointer used in joint.h
 typedef boost::shared_ptr<double> DoubleSharedPtr;
 
-class Collision;
-class Geometry;
-class Inertial;
-class Joint;
-class JointCalibration;
-class JointDynamics;
-class JointLimits;
-class JointMimic;
-class JointSafety;
-class Link;
-class Material;
-class Visual;
+URDF_TYPEDEF_CLASS_POINTER(Box);
+URDF_TYPEDEF_CLASS_POINTER(Collision);
+URDF_TYPEDEF_CLASS_POINTER(Cylinder);
+URDF_TYPEDEF_CLASS_POINTER(Geometry);
+URDF_TYPEDEF_CLASS_POINTER(Inertial);
+URDF_TYPEDEF_CLASS_POINTER(Joint);
+URDF_TYPEDEF_CLASS_POINTER(JointCalibration);
+URDF_TYPEDEF_CLASS_POINTER(JointDynamics);
+URDF_TYPEDEF_CLASS_POINTER(JointLimits);
+URDF_TYPEDEF_CLASS_POINTER(JointMimic);
+URDF_TYPEDEF_CLASS_POINTER(JointSafety);
+URDF_TYPEDEF_CLASS_POINTER(Link);
+URDF_TYPEDEF_CLASS_POINTER(Material);
+URDF_TYPEDEF_CLASS_POINTER(Mesh);
+URDF_TYPEDEF_CLASS_POINTER(Sphere);
+URDF_TYPEDEF_CLASS_POINTER(Visual);
 
-// typedef shared pointers
-typedef boost::shared_ptr<Collision> CollisionSharedPtr;
-typedef boost::shared_ptr<Geometry> GeometrySharedPtr;
-typedef boost::shared_ptr<Inertial> InertialSharedPtr;
-typedef boost::shared_ptr<Joint> JointSharedPtr;
-typedef boost::shared_ptr<JointCalibration> JointCalibrationSharedPtr;
-typedef boost::shared_ptr<JointDynamics> JointDynamicsSharedPtr;
-typedef boost::shared_ptr<JointLimits> JointLimitsSharedPtr;
-typedef boost::shared_ptr<JointMimic> JointMimicSharedPtr;
-typedef boost::shared_ptr<JointSafety> JointSafetySharedPtr;
-typedef boost::shared_ptr<Link> LinkSharedPtr;
-typedef boost::shared_ptr<Material> MaterialSharedPtr;
-typedef boost::shared_ptr<Visual> VisualSharedPtr;
+// create *_pointer_cast functions in urdf namespace
+template<class T, class U>
+boost::shared_ptr<T> const_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::const_pointer_cast<T>(r);
+}
 
-// typedef const shared pointers
-typedef boost::shared_ptr<const Collision> CollisionConstSharedPtr;
-typedef boost::shared_ptr<const Geometry> GeometryConstSharedPtr;
-typedef boost::shared_ptr<const Inertial> InertialConstSharedPtr;
-typedef boost::shared_ptr<const Joint> JointConstSharedPtr;
-typedef boost::shared_ptr<const JointCalibration> JointCalibrationConstSharedPtr;
-typedef boost::shared_ptr<const JointDynamics> JointDynamicsConstSharedPtr;
-typedef boost::shared_ptr<const JointLimits> JointLimitsConstSharedPtr;
-typedef boost::shared_ptr<const JointMimic> JointMimicConstSharedPtr;
-typedef boost::shared_ptr<const JointSafety> JointSafetyConstSharedPtr;
-typedef boost::shared_ptr<const Link> LinkConstSharedPtr;
-typedef boost::shared_ptr<const Material> MaterialConstSharedPtr;
-typedef boost::shared_ptr<const Visual> VisualConstSharedPtr;
+template<class T, class U>
+boost::shared_ptr<T> dynamic_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::dynamic_pointer_cast<T>(r);
+}
 
-// typedef weak pointers
-typedef boost::weak_ptr<Collision> CollisionWeakPtr;
-typedef boost::weak_ptr<Geometry> GeometryWeakPtr;
-typedef boost::weak_ptr<Inertial> InertialWeakPtr;
-typedef boost::weak_ptr<Joint> JointWeakPtr;
-typedef boost::weak_ptr<JointCalibration> JointCalibrationWeakPtr;
-typedef boost::weak_ptr<JointDynamics> JointDynamicsWeakPtr;
-typedef boost::weak_ptr<JointLimits> JointLimitsWeakPtr;
-typedef boost::weak_ptr<JointMimic> JointMimicWeakPtr;
-typedef boost::weak_ptr<JointSafety> JointSafetyWeakPtr;
-typedef boost::weak_ptr<Link> LinkWeakPtr;
-typedef boost::weak_ptr<Material> MaterialWeakPtr;
-typedef boost::weak_ptr<Visual> VisualWeakPtr;
+template<class T, class U>
+boost::shared_ptr<T> reinterpret_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::reinterpret_pointer_cast<T>(r);
+}
+
+template<class T, class U>
+boost::shared_ptr<T> static_pointer_cast(boost::shared_ptr<U> const & r)
+{
+  return boost::static_pointer_cast<T>(r);
+}
 
 }
 
