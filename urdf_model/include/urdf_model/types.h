@@ -37,6 +37,7 @@
 #ifndef URDF_MODEL_TYPES_H
 #define URDF_MODEL_TYPES_H
 
+#include <boost/pointer_cast.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
