@@ -37,10 +37,10 @@
 #ifndef URDF_INTERFACE_COLOR_H
 #define URDF_INTERFACE_COLOR_H
 
+#include <stdexcept>
 #include <string>
 #include <vector>
 #include <math.h>
-#include <boost/lexical_cast.hpp>
 
 #include <urdf_model/utils.h>
 
@@ -73,10 +73,12 @@ public:
       {
         try
         {
-          rgba.push_back(boost::lexical_cast<float>(pieces[i].c_str()));
+          rgba.push_back(std::stof(pieces[i]));
         }
-        catch (boost::bad_lexical_cast &/*e*/)
-        {
+        catch (std::invalid_argument &/*e*/) {
+          return false;
+        }
+        catch (std::out_of_range &/*e*/) {
           return false;
         }
       }
