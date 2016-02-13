@@ -1,7 +1,7 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
 *
-*  Copyright (c) 2008, Willow Garage, Inc.
+*  Copyright (c) 2016, Open Source Robotics Foundation (OSRF)
 *  All rights reserved.
 *
 *  Redistribution and use in source and binary forms, with or without
@@ -14,7 +14,7 @@
 *     copyright notice, this list of conditions and the following
 *     disclaimer in the documentation and/or other materials provided
 *     with the distribution.
-*   * Neither the name of the Willow Garage nor the names of its
+*   * Neither the name of the OSRF nor the names of its
 *     contributors may be used to endorse or promote products derived
 *     from this software without specific prior written permission.
 *
@@ -32,71 +32,36 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Josh Faust */
+/* Author: Steve Peters */
 
-#ifndef URDF_INTERFACE_COLOR_H
-#define URDF_INTERFACE_COLOR_H
+#ifndef URDF_INTERFACE_UTILS_H
+#define URDF_INTERFACE_UTILS_H
 
 #include <string>
 #include <vector>
-#include <math.h>
-#include <boost/lexical_cast.hpp>
 
-#include <urdf_model/utils.h>
+namespace urdf {
 
-namespace urdf
+// Replacement for boost::split( ... , ... , boost::is_any_of(" "))
+inline
+void split_string(std::vector<std::string> &result,
+                  const std::string &input,
+                  const std::string &isAnyOf)
 {
-
-class Color
-{
-public:
-  Color() {this->clear();};
-  float r;
-  float g;
-  float b;
-  float a;
-
-  void clear()
+  std::string::size_type start = 0;
+  std::string::size_type end = input.find_first_of(isAnyOf, start);
+  while (end != std::string::npos)
   {
-    r = g = b = 0.0f;
-    a = 1.0f;
+    result.push_back(input.substr(start, end-start));
+    start = end + 1;
+    end = input.find_first_of(isAnyOf, start);
   }
-  bool init(const std::string &vector_str)
+  if (start < input.length())
   {
-    this->clear();
-    std::vector<std::string> pieces;
-    std::vector<float> rgba;
-    urdf::split_string( pieces, vector_str, " ");
-    for (unsigned int i = 0; i < pieces.size(); ++i)
-    {
-      if (!pieces[i].empty())
-      {
-        try
-        {
-          rgba.push_back(boost::lexical_cast<float>(pieces[i].c_str()));
-        }
-        catch (boost::bad_lexical_cast &/*e*/)
-        {
-          return false;
-        }
-      }
-    }
-
-    if (rgba.size() != 4)
-    {
-      return false;
-    }
-
-    this->r = rgba[0];
-    this->g = rgba[1];
-    this->b = rgba[2];
-    this->a = rgba[3];
-
-    return true;
-  };
-};
+    result.push_back(input.substr(start));
+  }
+}
 
 }
 
 #endif
-

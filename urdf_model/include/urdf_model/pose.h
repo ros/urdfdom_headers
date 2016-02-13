@@ -50,9 +50,9 @@
 #include <sstream>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>
 #include <boost/lexical_cast.hpp>
 #include <urdf_exception/exception.h>
+#include <urdf_model/utils.h>
 
 namespace urdf{
 
@@ -71,7 +71,7 @@ public:
     this->clear();
     std::vector<std::string> pieces;
     std::vector<double> xyz;
-    boost::split( pieces, vector_str, boost::is_any_of(" "));
+    urdf::split_string( pieces, vector_str, " ");
     for (unsigned int i = 0; i < pieces.size(); ++i){
       if (pieces[i] != ""){
         try {
