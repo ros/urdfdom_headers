@@ -37,20 +37,18 @@
 #ifndef URDF_MODEL_TYPES_H
 #define URDF_MODEL_TYPES_H
 
-#include <boost/pointer_cast.hpp>
-#include <boost/shared_ptr.hpp>
-#include <boost/weak_ptr.hpp>
+#include <memory>
 
 #define URDF_TYPEDEF_CLASS_POINTER(Class) \
 class Class; \
-typedef boost::shared_ptr<Class> Class##SharedPtr; \
-typedef boost::shared_ptr<const Class> Class##ConstSharedPtr; \
-typedef boost::weak_ptr<Class> Class##WeakPtr
+typedef std::shared_ptr<Class> Class##SharedPtr; \
+typedef std::shared_ptr<const Class> Class##ConstSharedPtr; \
+typedef std::weak_ptr<Class> Class##WeakPtr
 
 namespace urdf{
 
 // shared pointer used in joint.h
-typedef boost::shared_ptr<double> DoubleSharedPtr;
+typedef std::shared_ptr<double> DoubleSharedPtr;
 
 URDF_TYPEDEF_CLASS_POINTER(Box);
 URDF_TYPEDEF_CLASS_POINTER(Collision);
@@ -71,21 +69,21 @@ URDF_TYPEDEF_CLASS_POINTER(Visual);
 
 // create *_pointer_cast functions in urdf namespace
 template<class T, class U>
-boost::shared_ptr<T> const_pointer_cast(boost::shared_ptr<U> const & r)
+std::shared_ptr<T> const_pointer_cast(std::shared_ptr<U> const & r)
 {
-  return boost::const_pointer_cast<T>(r);
+  return std::const_pointer_cast<T>(r);
 }
 
 template<class T, class U>
-boost::shared_ptr<T> dynamic_pointer_cast(boost::shared_ptr<U> const & r)
+std::shared_ptr<T> dynamic_pointer_cast(std::shared_ptr<U> const & r)
 {
-  return boost::dynamic_pointer_cast<T>(r);
+  return std::dynamic_pointer_cast<T>(r);
 }
 
 template<class T, class U>
-boost::shared_ptr<T> static_pointer_cast(boost::shared_ptr<U> const & r)
+std::shared_ptr<T> static_pointer_cast(std::shared_ptr<U> const & r)
 {
-  return boost::static_pointer_cast<T>(r);
+  return std::static_pointer_cast<T>(r);
 }
 
 }

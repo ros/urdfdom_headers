@@ -37,7 +37,7 @@
 #ifndef URDF_WORLD_TYPES_H
 #define URDF_WORLD_TYPES_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 
 namespace urdf{
@@ -45,7 +45,7 @@ namespace urdf{
 class ModelInterface;
 
 // typedef shared pointers
-typedef boost::shared_ptr<ModelInterface> ModelInterfaceSharedPtr;
+typedef std::shared_ptr<ModelInterface> ModelInterfaceSharedPtr;
 
 }
 

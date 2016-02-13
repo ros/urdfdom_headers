@@ -37,7 +37,7 @@
 #ifndef URDF_MODEL_STATE_TYPES_H
 #define URDF_MODEL_STATE_TYPES_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 
 namespace urdf{
@@ -45,7 +45,7 @@ namespace urdf{
 class JointState;
 
 // typedef shared pointers
-typedef boost::shared_ptr<JointState> JointStateSharedPtr;
+typedef std::shared_ptr<JointState> JointStateSharedPtr;
 
 }
 
