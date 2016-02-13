@@ -83,12 +83,6 @@ boost::shared_ptr<T> dynamic_pointer_cast(boost::shared_ptr<U> const & r)
 }
 
 template<class T, class U>
-boost::shared_ptr<T> reinterpret_pointer_cast(boost::shared_ptr<U> const & r)
-{
-  return boost::reinterpret_pointer_cast<T>(r);
-}
-
-template<class T, class U>
 boost::shared_ptr<T> static_pointer_cast(boost::shared_ptr<U> const & r)
 {
   return boost::static_pointer_cast<T>(r);
