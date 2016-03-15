@@ -44,55 +44,20 @@
      <clip near="0.01" far="50.0"/>
    </camera>
  </sensor>
- <sensor name="my_ray_sensor" update_rate="20">
-   <origin xyz="0 0 0" rpy="0 0 0"/>
-   <ray>
-     <scan>
-       <horizontal samples="100" resolution="1" min_angle="-1.5708" max_angle="1.5708"/>
-       <vertical samples="1" resolution="1" min_angle="0" max_angle="0"/>
-     </scan>
-   </ray>
- </sensor>
 
 */
 
+#ifndef URDF_SENSOR_CAMERA_H
+#define URDF_SENSOR_CAMERA_H
 
+#include <urdf_sensor/types.h>
 
-#ifndef URDF_SENSOR_H
-#define URDF_SENSOR_H
+namespace urdf {
 
-#include <string>
-#include <vector>
-#include <map>
-#include "urdf_model/pose.h"
-#include "urdf_model/joint.h"
-#include "urdf_model/link.h"
-#include "urdf_model/types.h"
-#include "urdf_sensor/types.h"
-
-namespace urdf{
-
-class SensorBase {
-public:
-  enum {VISUAL, FORCE, TACTILE, IMU, GYRO, ACCELERATION, GPS} sensor_type;
-  virtual ~SensorBase(void)
-  {
-  }
-};
-
-class VisualSensor : public SensorBase
+class Camera : public SensorBase
 {
 public:
-  enum {CAMERA, RAY, DEPTH} type;
-  virtual ~VisualSensor(void)
-  {
-  }
-};
-
-class Camera : public VisualSensor
-{
-public:
-  Camera() { this->clear(); };
+  Camera() { this->clear(); }
   unsigned int width, height;
   /// format is optional: defaults to R8G8B8), but can be
   /// (L8|R8G8B8|B8G8R8|BAYER_RGGB8|BAYER_BGGR8|BAYER_GBRG8|BAYER_GRBG8)
@@ -109,75 +74,8 @@ public:
     format.clear();
     near = 0;
     far = 0;
-  };
+  }
 };
 
-class Ray : public VisualSensor
-{
-public:
-  Ray() { this->clear(); };
-  unsigned int horizontal_samples;
-  double horizontal_resolution;
-  double horizontal_min_angle;
-  double horizontal_max_angle;
-  unsigned int vertical_samples;
-  double vertical_resolution;
-  double vertical_min_angle;
-  double vertical_max_angle;
-
-  void clear()
-  {
-    // set defaults
-    horizontal_samples = 1;
-    horizontal_resolution = 1;
-    horizontal_min_angle = 0;
-    horizontal_max_angle = 0;
-    vertical_samples = 1;
-    vertical_resolution = 1;
-    vertical_min_angle = 0;
-    vertical_max_angle = 0;
-  };
-};
-
-
-class Sensor
-{
-public:
-  Sensor() { this->clear(); };
-
-  /// sensor name must be unique
-  std::string name;
-
-  /// update rate in Hz
-  double update_rate;
-
-  /// transform from parent frame to optical center
-  ///   with z-forward and x-right, y-down
-  Pose origin;
-
-  /// sensor
-  SensorBaseSharedPtr sensor;
-
-  /// Parent link element name.  A pointer is stored in parent_link_.
-  std::string parent_link_name;
-
-  LinkSharedPtr getParent() const
-  {return parent_link_.lock();};
-
-  void setParent(LinkSharedPtr parent)
-  {  this->parent_link_ = parent; }
-  
-  void clear()
-  {
-    this->name.clear();
-    this->sensor.reset();
-    this->parent_link_name.clear();
-    this->parent_link_.reset();
-  };
-
-private:
-  LinkWeakPtr parent_link_;
-
-};
 }
 #endif
