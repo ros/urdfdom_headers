@@ -1,6 +1,8 @@
 cmake_minimum_required( VERSION 2.8 FATAL_ERROR )
 project (urdfdom_headers)
 
+include(GNUInstallDirs)
+
 set (URDF_MAJOR_VERSION 0)
 set (URDF_MINOR_VERSION 4)
 set (URDF_PATCH_VERSION 1)
@@ -24,7 +26,7 @@ add_subdirectory(urdf_exception)
 if(WIN32 AND NOT CYGWIN)
   set(CMAKE_CONFIG_INSTALL_DIR CMake)
 else()
-  set(CMAKE_CONFIG_INSTALL_DIR share/${PROJECT_NAME}/cmake/)
+  set(CMAKE_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_FULL_LIBDIR}/${PROJECT_NAME}/cmake/)
 endif()
 
 set(PACKAGE_NAME ${PROJECT_NAME})
