@@ -46,13 +46,13 @@
 #endif
 
 #include <cmath>
-#include <string>
 #include <sstream>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
-#include <boost/algorithm/string.hpp>
-#include <boost/lexical_cast.hpp>
 #include <urdf_exception/exception.h>
+#include <urdf_model/utils.h>
 
 namespace urdf{
 
@@ -71,20 +71,23 @@ public:
     this->clear();
     std::vector<std::string> pieces;
     std::vector<double> xyz;
-    boost::split( pieces, vector_str, boost::is_any_of(" "));
+    urdf::split_string( pieces, vector_str, " ");
     for (unsigned int i = 0; i < pieces.size(); ++i){
       if (pieces[i] != ""){
         try {
-          xyz.push_back(boost::lexical_cast<double>(pieces[i].c_str()));
+          xyz.push_back(std::stod(pieces[i]));
         }
-        catch (boost::bad_lexical_cast &/*e*/) {
+        catch (std::invalid_argument &/*e*/) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
+        }
+        catch (std::out_of_range &/*e*/) {
+          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double, out of range (while parsing a vector value)");
         }
       }
     }
 
     if (xyz.size() != 3)
-      throw ParseError("Parser found " + boost::lexical_cast<std::string>(xyz.size())  + " elements but 3 expected while parsing vector [" + vector_str + "]");
+      throw ParseError("Parser found " + std::to_string(xyz.size())  + " elements but 3 expected while parsing vector [" + vector_str + "]");
 
     this->x = xyz[0];
     this->y = xyz[1];

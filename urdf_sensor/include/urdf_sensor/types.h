@@ -37,7 +37,7 @@
 #ifndef URDF_SENSOR_TYPES_H
 #define URDF_SENSOR_TYPES_H
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 
 
 namespace urdf{
@@ -45,7 +45,7 @@ namespace urdf{
 class VisualSensor;
 
 // typedef shared pointers
-typedef boost::shared_ptr<VisualSensor> VisualSensorSharedPtr;
+typedef std::shared_ptr<VisualSensor> VisualSensorSharedPtr;
 
 }
 
