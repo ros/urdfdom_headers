@@ -45,7 +45,7 @@
 #endif
 #endif
 
-#include <math.h>
+#include <cmath>
 #include <sstream>
 #include <stdexcept>
 #include <string>
