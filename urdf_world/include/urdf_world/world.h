@@ -73,7 +73,6 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <tinyxml.h>
 
 #include "urdf_model/model.h"
 #include "urdf_model/pose.h"
@@ -100,6 +99,7 @@ public:
 
   std::vector<Entity> models;
 
+  class TiXmlElement;
   void initXml(TiXmlElement* config);
 
   void clear()
