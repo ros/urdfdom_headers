@@ -54,6 +54,10 @@
 #include <urdf_exception/exception.h>
 #include <urdf_model/utils.h>
 
+#ifndef M_PI
+const double M_PI = 3.14159265;
+#endif
+
 namespace urdf{
 
 class Vector3
