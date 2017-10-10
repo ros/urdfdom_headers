@@ -67,13 +67,12 @@
 
 */
 
-#ifndef USDF_STATE_H
-#define USDF_STATE_H
+#ifndef URDF_WORLD_H
+#define URDF_WORLD_H
 
 #include <string>
 #include <vector>
 #include <map>
-#include <tinyxml.h>
 
 #include "urdf_model/model.h"
 #include "urdf_model/pose.h"
@@ -99,8 +98,6 @@ public:
   std::string name;
 
   std::vector<Entity> models;
-
-  void initXml(TiXmlElement* config);
 
   void clear()
   {
