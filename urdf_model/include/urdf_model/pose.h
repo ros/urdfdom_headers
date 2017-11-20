@@ -68,6 +68,7 @@ public:
       if (pieces[i] != ""){
         double piece;
         std::stringstream ss;
+        ss.imbue(std::locale::classic());
 
         ss << pieces[i];
         ss >> piece;
