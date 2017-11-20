@@ -66,15 +66,17 @@ public:
     urdf::split_string( pieces, vector_str, " ");
     for (unsigned int i = 0; i < pieces.size(); ++i){
       if (pieces[i] != ""){
-        try {
-          xyz.push_back(std::stod(pieces[i]));
-        }
-        catch (std::invalid_argument &/*e*/) {
+        double piece;
+        std::stringstream ss;
+
+        ss << pieces[i];
+        ss >> piece;
+
+        if (ss.fail() || !ss.eof()) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
         }
-        catch (std::out_of_range &/*e*/) {
-          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double, out of range (while parsing a vector value)");
-        }
+
+        xyz.push_back(piece);
       }
     }
 
