@@ -62,6 +62,28 @@ void split_string(std::vector<std::string> &result,
   }
 }
 
+// This is a locale-safe version of string-to-double, which is suprisingly
+// difficult to do correctly.  This function ensures that the C locale is used
+// for parsing, as that matches up with what the XSD for double specifies.
+// On success, the double is returned; on failure, a std::runtime_error is
+// thrown.
+static inline double strToDouble(const char *in)
+{
+  std::stringstream ss;
+  ss.imbue(std::locale::classic());
+
+  ss << in;
+
+  double out;
+  ss >> out;
+
+  if (ss.fail() || !ss.eof()) {
+    throw std::runtime_error("");
+  }
+
+  return out;
+}
+
 }
 
 #endif
