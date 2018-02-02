@@ -81,7 +81,7 @@ static inline double strToDouble(const char *in)
   ss >> out;
 
   if (ss.fail() || !ss.eof()) {
-    throw std::runtime_error("");
+    throw std::runtime_error("Failed converting string to double");
   }
 
   return out;
