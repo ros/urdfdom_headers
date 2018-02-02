@@ -37,6 +37,9 @@
 #ifndef URDF_INTERFACE_UTILS_H
 #define URDF_INTERFACE_UTILS_H
 
+#include <locale>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
