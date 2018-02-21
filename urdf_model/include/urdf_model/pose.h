@@ -67,13 +67,9 @@ public:
     for (unsigned int i = 0; i < pieces.size(); ++i){
       if (pieces[i] != ""){
         try {
-          xyz.push_back(std::stod(pieces[i]));
-        }
-        catch (std::invalid_argument &/*e*/) {
+          xyz.push_back(strToDouble(pieces[i].c_str()));
+        } catch(std::runtime_error &) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
-        }
-        catch (std::out_of_range &/*e*/) {
-          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double, out of range (while parsing a vector value)");
         }
       }
     }
