@@ -73,13 +73,10 @@ public:
       {
         try
         {
-          rgba.push_back(std::stof(pieces[i]));
+          rgba.push_back(strToDouble(pieces[i].c_str()));
         }
-        catch (std::invalid_argument &/*e*/) {
-          return false;
-        }
-        catch (std::out_of_range &/*e*/) {
-          return false;
+        catch (std::runtime_error &/*e*/) {
+          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a color value)");
         }
       }
     }
