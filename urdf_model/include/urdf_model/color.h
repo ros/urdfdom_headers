@@ -76,7 +76,7 @@ public:
           double piece = strToDouble(pieces[i].c_str());
           if ((piece < 0) || (piece > 1))
             throw ParseError("Component [" + pieces[i] + "] is outside the valid range for colors [0, 1]");
-          rgba.push_back(piece);
+          rgba.push_back(static_cast<float>(piece));
         }
         catch (std::runtime_error &/*e*/) {
           throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a color value)");
