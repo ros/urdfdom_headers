@@ -73,7 +73,7 @@ public:
       {
         try
         {
-          double piece = strToDouble(pieces[i].c_str());
+          float piece = std::stof(pieces[i].c_str());
           if ((piece < 0) || (piece > 1))
             throw ParseError("Component [" + pieces[i] + "] is outside the valid range for colors [0, 1]");
           rgba.push_back(piece);
