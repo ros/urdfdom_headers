@@ -201,7 +201,7 @@ public:
     setFromRPY(rpy.x, rpy.y, rpy.z);
   }
 
-  void initQuaternions(const std::string &rotation_str)
+  void initQuaternion(const std::string &rotation_str)
   {
     this->clear();
     Vector4 xyzw_quat;
