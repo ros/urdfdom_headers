@@ -43,6 +43,7 @@
 #include <math.h>
 
 #include <urdf_model/utils.h>
+#include <urdf_exception/exception.h>
 
 namespace urdf
 {
