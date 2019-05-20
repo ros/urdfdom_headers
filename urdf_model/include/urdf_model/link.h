@@ -50,7 +50,7 @@ namespace urdf{
 class Geometry
 {
 public:
-  enum {SPHERE, BOX, CYLINDER, MESH} type;
+  enum {SPHERE, BOX, CYLINDER, MESH, SDF} type;
 
   virtual ~Geometry(void)
   {
@@ -99,6 +99,23 @@ class Mesh : public Geometry
 {
 public:
   Mesh() { this->clear(); type = MESH; };
+  std::string filename;
+  Vector3 scale;
+
+  void clear()
+  {
+    filename.clear();
+    // default scale
+    scale.x = 1;
+    scale.y = 1;
+    scale.z = 1;
+  };
+};
+
+class SDF : public Geometry
+{
+public:
+  SDF() { this->clear(); type = Geometry::SDF; };
   std::string filename;
   Vector3 scale;
 
