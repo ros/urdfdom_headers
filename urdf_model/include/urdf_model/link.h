@@ -50,7 +50,7 @@ namespace urdf{
 class Geometry
 {
 public:
-  enum {SPHERE, BOX, CYLINDER, MESH} type;
+  enum {SPHERE, BOX, CYLINDER, MESH, OCTOMAP} type;
 
   virtual ~Geometry(void)
   {
@@ -101,6 +101,24 @@ public:
   Mesh() { this->clear(); type = MESH; };
   std::string filename;
   Vector3 scale;
+
+  void clear()
+  {
+    filename.clear();
+    // default scale
+    scale.x = 1;
+    scale.y = 1;
+    scale.z = 1;
+  };
+};
+
+class Octomap : public Geometry
+{
+public:
+  Octomap() { this->clear(); type = OCTOMAP; };
+  std::string filename;
+  Vector3 scale;
+  enum {BOX, INSIDE_SPHERE, OUTSIDE_SPHERE} octomap_type = BOX;
 
   void clear()
   {
