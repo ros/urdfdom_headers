@@ -56,6 +56,17 @@ if (NOT MSVC)
   install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION lib/pkgconfig/ COMPONENT pkgconfig)
 endif()
 
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} INTERFACE
+  "$<INSTALL_INTERFACE:include>")
+install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME})
+install(
+  EXPORT ${PROJECT_NAME}
+  DESTINATION ${CMAKE_CONFIG_INSTALL_DIR}
+  NAMESPACE "${PROJECT_NAME}::"
+  FILE "${PROJECT_NAME}Export.cmake"
+)
+
 # Add uninstall target
 # Ref: http://www.cmake.org/Wiki/CMake_FAQ#Can_I_do_.22make_uninstall.22_with_CMake.3F
 configure_file("${PROJECT_SOURCE_DIR}/cmake/uninstall.cmake.in" "${PROJECT_BINARY_DIR}/uninstall.cmake" IMMEDIATE @ONLY)
