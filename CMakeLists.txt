@@ -10,6 +10,7 @@ option(APPEND_PROJECT_NAME_TO_INCLUDEDIR
 
 if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
   set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+  set(CMAKE_INSTALL_FULL_INCLUDEDIR "${CMAKE_INSTALL_FULL_INCLUDEDIR}/${PROJECT_NAME}")
 endif()
 
 set (URDF_MAJOR_VERSION 1)
@@ -33,9 +34,14 @@ if(WIN32 AND NOT CYGWIN)
 else()
   set(CMAKE_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake)
 endif()
-string(REGEX REPLACE "[^/]+" ".." RELATIVE_PATH_CMAKE_DIR_TO_PREFIX "${CMAKE_CONFIG_INSTALL_DIR}")
+file(RELATIVE_PATH RELATIVE_PATH_CMAKE_DIR_TO_PREFIX "${CMAKE_CONFIG_INSTALL_DIR}" "${CMAKE_INSTALL_PREFIX}")
 
 set(PACKAGE_NAME ${PROJECT_NAME})
+string(REPLACE
+  "${CMAKE_INSTALL_PREFIX}"
+  "\${${PROJECT_NAME}_DIR}/${RELATIVE_PATH_CMAKE_DIR_TO_PREFIX}"
+  cmake_conf_include_dir
+  "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
 set(cmake_conf_file "${PROJECT_NAME}-config.cmake")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/${cmake_conf_file}.in" "${CMAKE_BINARY_DIR}/${cmake_conf_file}" @ONLY)
 set(cmake_conf_version_file "${PROJECT_NAME}-config-version.cmake")
@@ -55,6 +61,7 @@ install(FILES
 
 # Make the package config file
 set(PACKAGE_DESC "Unified Robot Description Format")
+string(REPLACE "${CMAKE_INSTALL_PREFIX}" "\${prefix}" pkg_conf_includedir "${CMAKE_INSTALL_FULL_INCLUDEDIR}")
 set(pkg_conf_file "urdfdom_headers.pc")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
 install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/ COMPONENT pkgconfig)
