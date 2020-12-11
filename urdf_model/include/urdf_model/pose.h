@@ -168,11 +168,13 @@ public:
 
   void normalize()
   {
-    double s = sqrt(this->x * this->x +
-                    this->y * this->y +
-                    this->z * this->z +
-                    this->w * this->w);
-    if (s == 0.0)
+    const double squared_norm =
+      this->x * this->x +
+      this->y * this->y +
+      this->z * this->z +
+      this->w * this->w;
+
+    if (squared_norm <= 0.0)
     {
       this->x = 0.0;
       this->y = 0.0;
@@ -181,6 +183,7 @@ public:
     }
     else
     {
+      const double s = sqrt(squared_norm);
       this->x /= s;
       this->y /= s;
       this->z /= s;
