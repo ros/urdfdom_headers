@@ -166,6 +166,18 @@ public:
 
   void clear() { this->x=this->y=this->z=0.0;this->w=1.0; }
 
+  /**
+   * \brief Normalize the elements of this quaternion
+   *
+   * Note: This function historically checked if the norm of the elements
+   * equaled 0 using a strict floating point equals (s == 0.0) to prevent a
+   * divide by zero error. This comparison will cause the compiler to issue a
+   * warning with '-Wfloat-equal'. Comparing against a small epsilon would
+   * likely be more ideal, but its choice may be application specific and could
+   * change behavior of legacy code if chosen poorly. Using <= handles the
+   * warning without changing the behavior of this function, even though it's
+   * less than ideal.
+   */
   void normalize()
   {
     const double squared_norm =
