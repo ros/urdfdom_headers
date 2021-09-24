@@ -168,11 +168,21 @@ public:
 
   void normalize()
   {
-    double s = sqrt(this->x * this->x +
-                    this->y * this->y +
-                    this->z * this->z +
-                    this->w * this->w);
-    if (s == 0.0)
+    const double squared_norm =
+      this->x * this->x +
+      this->y * this->y +
+      this->z * this->z +
+      this->w * this->w;
+
+    // Note: This function historically checked if the norm of the elements
+    // equaled 0 using a strict floating point equals (s == 0.0) to prevent a
+    // divide by zero error. This comparison will cause the compiler to issue a
+    // warning with `-Wfloat-equal`. Comparing against a small epsilon would
+    // likely be more ideal, but its choice may be application specific and
+    // could change behavior of legacy code if chosen poorly. Using `<=`
+    // silences the warning without changing the behavior of this function, even
+    // though there are no situations squared_norm can be strictly less than 0.
+    if (squared_norm <= 0.0)
     {
       this->x = 0.0;
       this->y = 0.0;
@@ -181,6 +191,7 @@ public:
     }
     else
     {
+      const double s = sqrt(squared_norm);
       this->x /= s;
       this->y /= s;
       this->z /= s;
