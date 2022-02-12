@@ -17,11 +17,11 @@ if(MSVC OR MSVC90 OR MSVC10)
   set(MSVC ON)
 endif (MSVC OR MSVC90 OR MSVC10)
 
-add_subdirectory(urdf_sensor)
-add_subdirectory(urdf_model)
-add_subdirectory(urdf_model_state)
-add_subdirectory(urdf_world)
-add_subdirectory(urdf_exception)
+install(DIRECTORY urdf_exception/include/ DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY urdf_model/include/ DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY urdf_model_state/include/ DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY urdf_sensor/include/ DESTINATION include/${PROJECT_NAME})
+install(DIRECTORY urdf_world/include/ DESTINATION include/${PROJECT_NAME})
 
 if(WIN32 AND NOT CYGWIN)
   set(CMAKE_CONFIG_INSTALL_DIR CMake)
@@ -58,7 +58,7 @@ endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE
-  "$<INSTALL_INTERFACE:include>")
+  "$<INSTALL_INTERFACE:include/${PROJECT_NAME}>")
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME})
 install(
   EXPORT ${PROJECT_NAME}
