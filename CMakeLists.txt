@@ -3,6 +3,15 @@ project (urdfdom_headers)
 
 include(GNUInstallDirs)
 
+option(APPEND_PROJECT_NAME_TO_INCLUDEDIR
+  "When ON headers are installed to a folder ending with an extra ${PROJECT_NAME}. \
+  This avoids include directory search order issues when overriding this package
+  from a merged catkin, ament, or colcon workspace." ON)
+
+if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
+  set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
+endif()
+
 set (URDF_MAJOR_VERSION 1)
 set (URDF_MINOR_VERSION 0)
 set (URDF_PATCH_VERSION 5)
@@ -17,11 +26,7 @@ if(MSVC OR MSVC90 OR MSVC10)
   set(MSVC ON)
 endif (MSVC OR MSVC90 OR MSVC10)
 
-add_subdirectory(urdf_sensor)
-add_subdirectory(urdf_model)
-add_subdirectory(urdf_model_state)
-add_subdirectory(urdf_world)
-add_subdirectory(urdf_exception)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 if(WIN32 AND NOT CYGWIN)
   set(CMAKE_CONFIG_INSTALL_DIR CMake)
@@ -58,7 +63,7 @@ endif()
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE
-  "$<INSTALL_INTERFACE:include>")
+  "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME})
 install(
   EXPORT ${PROJECT_NAME}
