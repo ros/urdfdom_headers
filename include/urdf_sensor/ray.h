@@ -1,13 +1,13 @@
 /*********************************************************************
 * Software License Agreement (BSD License)
-*
+* 
 *  Copyright (c) 2008, Willow Garage, Inc.
 *  All rights reserved.
-*
+* 
 *  Redistribution and use in source and binary forms, with or without
 *  modification, are permitted provided that the following conditions
 *  are met:
-*
+* 
 *   * Redistributions of source code must retain the above copyright
 *     notice, this list of conditions and the following disclaimer.
 *   * Redistributions in binary form must reproduce the above
@@ -17,7 +17,7 @@
 *   * Neither the name of the Willow Garage nor the names of its
 *     contributors may be used to endorse or promote products derived
 *     from this software without specific prior written permission.
-*
+* 
 *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
 *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
@@ -32,61 +32,55 @@
 *  POSSIBILITY OF SUCH DAMAGE.
 *********************************************************************/
 
-/* Author: Steve Peters, Robert Haschke */
+/* Author: John Hsu */
 
-#ifndef URDF_SENSOR_TYPES_H
-#define URDF_SENSOR_TYPES_H
+/* example
 
-#include "urdf_model/types.h"
-#include "urdf_model/pose.h"
+ <sensor name="my_ray_sensor" update_rate="20">
+   <origin xyz="0 0 0" rpy="0 0 0"/>
+   <ray>
+     <scan>
+       <horizontal samples="100" resolution="1" min_angle="-1.5708" max_angle="1.5708"/>
+       <vertical samples="1" resolution="1" min_angle="0" max_angle="0"/>
+     </scan>
+   </ray>
+ </sensor>
+
+*/
+
+#ifndef URDF_SENSOR_RAY_H
+#define URDF_SENSOR_RAY_H
+
+#include <urdf_sensor/types.h>
 
 namespace urdf {
 
-URDF_TYPEDEF_CLASS_POINTER(Sensor);
-URDF_TYPEDEF_CLASS_POINTER(SensorBase);
-URDF_TYPEDEF_CLASS_POINTER(Camera);
-URDF_TYPEDEF_CLASS_POINTER(Ray);
-
-class SensorBase
+class Ray : public SensorBase
 {
 public:
-  virtual void clear() = 0;
-  virtual ~SensorBase(void) {}
-};
-
-/** Sensor class is wrapper comprising generic sensor information
- *  like name, update rate, sensor frame (parent link + origin transform)
- *  TODO: think about mergin with SensorBase
- */
-class Sensor
-{
-public:
-  Sensor() { this->clear(); };
-
-  /// sensor name must be unique
-  std::string name_;
-
-  /// update rate in Hz
-  double update_rate_;
-
-  /// name of parent link this sensor is attached to
-  std::string parent_link_;
-
-  /// transform from parent frame sensor frame
-  Pose origin_;
-
-  /// sensor
-  SensorBaseSharedPtr sensor_;
+  Ray() { this->clear(); }
+  unsigned int horizontal_samples;
+  double horizontal_resolution;
+  double horizontal_min_angle;
+  double horizontal_max_angle;
+  unsigned int vertical_samples;
+  double vertical_resolution;
+  double vertical_min_angle;
+  double vertical_max_angle;
 
   void clear()
   {
-    name_.clear();
-    parent_link_.clear();
-    origin_.clear();
-    sensor_.reset();
+    // set defaults
+    horizontal_samples = 1;
+    horizontal_resolution = 1;
+    horizontal_min_angle = 0;
+    horizontal_max_angle = 0;
+    vertical_samples = 1;
+    vertical_resolution = 1;
+    vertical_min_angle = 0;
+    vertical_max_angle = 0;
   }
 };
 
 }
-
 #endif
