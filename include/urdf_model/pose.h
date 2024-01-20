@@ -88,6 +88,43 @@ public:
   };
 };
 
+class Vector4
+{
+  public:
+  Vector4(double _x,double _y, double _z, double _w) {this->x=_x;this->y=_y;this->z=_z;this->w=_w;};
+  Vector4() {this->clear();};
+  double x;
+  double y;
+  double z;
+  double w;
+  
+  void clear() {this->x=this->y=this->z=this->w=0.0;};
+  void init(const std::string &vector_str)
+  {
+    this->clear();
+    std::vector<std::string> pieces;
+    std::vector<double> xyzw;
+    urdf::split_string( pieces, vector_str, " ");
+    for (unsigned int i = 0; i < pieces.size(); ++i){
+      if (pieces[i] != ""){
+        try {
+          xyzw.push_back(strToDouble(pieces[i].c_str()));
+        } catch(std::runtime_error &) {
+          throw ParseError("Unable to parse component [" + pieces[i] + "] to a double (while parsing a vector value)");
+        }
+      }
+    }
+    
+    if (xyzw.size() != 4)
+      throw ParseError("Parser found " + std::to_string(xyzw.size())  + " elements but 4 expected while parsing vector [" + vector_str + "]");
+    
+    this->x = xyzw[0];
+    this->y = xyzw[1];
+    this->z = xyzw[2];
+    this->w = xyzw[3];
+  }
+};
+
 class Rotation
 {
 public:
@@ -162,6 +199,18 @@ public:
     Vector3 rpy;
     rpy.init(rotation_str);
     setFromRPY(rpy.x, rpy.y, rpy.z);
+  }
+  
+  void initQuaternion(const std::string &rotation_str)
+  {
+    this->clear();
+    Vector4 xyzw_quat;
+    xyzw_quat.init(rotation_str);
+    this->x = xyzw_quat.x;
+    this->y = xyzw_quat.y;
+    this->z = xyzw_quat.z;
+    this->w = xyzw_quat.w;
+    this->normalize();
   }
 
   void clear() { this->x=this->y=this->z=0.0;this->w=1.0; }
