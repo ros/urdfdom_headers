@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format2.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="2">
+  <name>urdfdom_headers</name>
+  <version>1.1.1</version>
+  <description>
+    C++ headers for URDF.
+  </description>
+  <maintainer email="steven@openrobotics.org">Steven! Ragnarök</maintainer>
+  <license>BSD</license>
+
+  <url type="website">http://ros.org/wiki/urdf</url>
+
+  <buildtool_depend>cmake</buildtool_depend>
+
+  <export>
+    <build_type>cmake</build_type>
+  </export>
+</package>
+
