@@ -13,8 +13,8 @@
 
   <buildtool_depend>cmake</buildtool_depend>
 
-  <depend>console_bridge</depend>
-  <depend>tinyxml</depend>
+  <depend>console_bridge_vendor</depend>
+  <depend>tinyxml_vendor</depend>
 
   <export>
     <build_type>cmake</build_type>
