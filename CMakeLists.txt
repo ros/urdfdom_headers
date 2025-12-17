@@ -1,5 +1,15 @@
 cmake_minimum_required( VERSION 3.20 FATAL_ERROR )
-project (urdfdom_headers)
+# Read version from package.xml
+file(READ package.xml PACKAGE_XML_DATA)
+string(REGEX MATCH "<version>([0-9]+)\.([0-9]+)\.([0-9]+)</version>" _ ${PACKAGE_XML_DATA})
+set(URDF_MAJOR_VERSION ${CMAKE_MATCH_1})
+set(URDF_MINOR_VERSION ${CMAKE_MATCH_2})
+set(URDF_PATCH_VERSION ${CMAKE_MATCH_3})
+
+set(URDF_VERSION ${URDF_MAJOR_VERSION}.${URDF_MINOR_VERSION}.${URDF_PATCH_VERSION})
+project(urdfdom_headers VERSION ${URDF_VERSION})
+
+message(STATUS "${PROJECT_NAME} version ${URDF_VERSION}")
 
 include(GNUInstallDirs)
 
@@ -11,14 +21,6 @@ option(APPEND_PROJECT_NAME_TO_INCLUDEDIR
 if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
   set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
 endif()
-
-set (URDF_MAJOR_VERSION 2)
-set (URDF_MINOR_VERSION 0)
-set (URDF_PATCH_VERSION 0)
-
-set (URDF_VERSION ${URDF_MAJOR_VERSION}.${URDF_MINOR_VERSION}.${URDF_PATCH_VERSION})
-
-message (STATUS "${PROJECT_NAME} version ${URDF_VERSION}")
 
 # This shouldn't be necessary, but there has been trouble
 # with MSVC being set off, but MSVCXX ON.
