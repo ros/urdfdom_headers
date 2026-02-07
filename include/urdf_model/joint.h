@@ -77,10 +77,10 @@ public:
 
   void clear()
   {
-    lower = 0;
-    upper = 0;
-    effort = 0;
-    velocity = 0;
+    lower = -std::numeric_limits<double>::infinity();
+    upper = std::numeric_limits<double>::infinity();
+    effort = std::numeric_limits<double>::infinity();
+    velocity = std::numeric_limits<double>::infinity();
     acceleration = std::numeric_limits<double>::infinity();
     deceleration = std::numeric_limits<double>::infinity();
     jerk = std::numeric_limits<double>::infinity();
