@@ -77,8 +77,8 @@ public:
 
   void clear()
   {
-    lower = -std::numeric_limits<double>::infinity();
-    upper = std::numeric_limits<double>::infinity();
+    lower = -std::numeric_limits<double>::quiet_NaN();
+    upper = std::numeric_limits<double>::quiet_NaN();
     effort = std::numeric_limits<double>::infinity();
     velocity = std::numeric_limits<double>::infinity();
     acceleration = std::numeric_limits<double>::infinity();
