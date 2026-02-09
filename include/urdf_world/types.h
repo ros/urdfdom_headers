@@ -37,7 +37,16 @@
 #ifndef URDF_WORLD_TYPES_H
 #define URDF_WORLD_TYPES_H
 
-#warning urdf_world/types.h is deprecated. Please use urdf_model/types.h instead.
-#include <urdf_model/types.h>
+#include <memory>
+
+
+namespace urdf{
+
+class ModelInterface;
+
+// typedef shared pointers
+typedef std::shared_ptr<ModelInterface> ModelInterfaceSharedPtr;
+
+}
 
 #endif
