@@ -37,6 +37,7 @@
 #ifndef URDF_INTERFACE_JOINT_H
 #define URDF_INTERFACE_JOINT_H
 
+#include <limits>
 #include <string>
 #include <vector>
 
@@ -70,6 +71,9 @@ public:
   double upper;
   double effort;
   double velocity;
+  double acceleration;
+  double deceleration;
+  double jerk;
 
   void clear()
   {
@@ -77,6 +81,9 @@ public:
     upper = 0;
     effort = 0;
     velocity = 0;
+    acceleration = std::numeric_limits<double>::infinity();
+    deceleration = std::numeric_limits<double>::infinity();
+    jerk = std::numeric_limits<double>::infinity();
   };
 };
 

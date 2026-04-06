@@ -1,5 +1,15 @@
-cmake_minimum_required( VERSION 2.8.12 FATAL_ERROR )
-project (urdfdom_headers)
+cmake_minimum_required( VERSION 3.20 FATAL_ERROR )
+# Read version from package.xml
+file(READ package.xml PACKAGE_XML_DATA)
+string(REGEX MATCH "<version>([0-9]+)\.([0-9]+)\.([0-9]+)</version>" _ ${PACKAGE_XML_DATA})
+set(URDF_MAJOR_VERSION ${CMAKE_MATCH_1})
+set(URDF_MINOR_VERSION ${CMAKE_MATCH_2})
+set(URDF_PATCH_VERSION ${CMAKE_MATCH_3})
+
+set(URDF_VERSION ${URDF_MAJOR_VERSION}.${URDF_MINOR_VERSION}.${URDF_PATCH_VERSION})
+project(urdfdom_headers VERSION ${URDF_VERSION})
+
+message(STATUS "${PROJECT_NAME} version ${URDF_VERSION}")
 
 include(GNUInstallDirs)
 
@@ -11,14 +21,6 @@ option(APPEND_PROJECT_NAME_TO_INCLUDEDIR
 if(APPEND_PROJECT_NAME_TO_INCLUDEDIR)
   set(CMAKE_INSTALL_INCLUDEDIR "${CMAKE_INSTALL_INCLUDEDIR}/${PROJECT_NAME}")
 endif()
-
-set (URDF_MAJOR_VERSION 1)
-set (URDF_MINOR_VERSION 1)
-set (URDF_PATCH_VERSION 0)
-
-set (URDF_VERSION ${URDF_MAJOR_VERSION}.${URDF_MINOR_VERSION}.${URDF_PATCH_VERSION})
-
-message (STATUS "${PROJECT_NAME} version ${URDF_VERSION}")
 
 # This shouldn't be necessary, but there has been trouble
 # with MSVC being set off, but MSVCXX ON.
@@ -34,6 +36,7 @@ else()
   set(CMAKE_CONFIG_INSTALL_DIR ${CMAKE_INSTALL_LIBDIR}/${PROJECT_NAME}/cmake)
 endif()
 string(REGEX REPLACE "[^/]+" ".." RELATIVE_PATH_CMAKE_DIR_TO_PREFIX "${CMAKE_CONFIG_INSTALL_DIR}")
+string(REGEX REPLACE "[^/]+" ".." RELATIVE_PATH_LIBDIR_TO_PREFIX "${CMAKE_INSTALL_LIBDIR}")
 
 set(PACKAGE_NAME ${PROJECT_NAME})
 set(cmake_conf_file "${PROJECT_NAME}-config.cmake")
@@ -54,12 +57,10 @@ install(FILES
   DESTINATION ${CMAKE_CONFIG_INSTALL_DIR} COMPONENT cmake)
 
 # Make the package config file
-if (NOT MSVC)
-  set(PACKAGE_DESC "Unified Robot Description Format")
-  set(pkg_conf_file "urdfdom_headers.pc")
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
-  install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/ COMPONENT pkgconfig)
-endif()
+set(PACKAGE_DESC "Unified Robot Description Format")
+set(pkg_conf_file "urdfdom_headers.pc")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/cmake/pkgconfig/${pkg_conf_file}.in" "${CMAKE_BINARY_DIR}/${pkg_conf_file}" @ONLY)
+install(FILES "${CMAKE_BINARY_DIR}/${pkg_conf_file}" DESTINATION ${CMAKE_INSTALL_LIBDIR}/pkgconfig/ COMPONENT pkgconfig)
 
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE
