@@ -2,6 +2,12 @@
 Changelog for package urdfdom_headers
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+2.1.2 (2026-04-18)
+-----------
+* Revert "Extend JointLimits class to include acceleration, deceleration and jerk limits (`#83 <https://github.com/ros/urdfdom_headers/issues/83>`_)"
+  This was a breaking change that will be released in 3.0.0
+* Contributors: Steve Peters
+
 2.1.1 (2026-04-15)
 ------------------
 
