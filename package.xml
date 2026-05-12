@@ -6,6 +6,7 @@
   <description>
     C++ headers for URDF.
   </description>
+  <maintainer email="scpeters@openrobotics.org">Steve Peters</maintainer>
   <maintainer email="steven@openrobotics.org">Steven! Ragnarök</maintainer>
   <license>BSD</license>
 
