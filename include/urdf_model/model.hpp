@@ -40,6 +40,7 @@
 #include <string>
 #include <map>
 #include <urdf_model/link.hpp>
+#include <urdf_model/constraint.hpp>
 #include <urdf_model/types.hpp>
 #include <urdf_exception/exception.hpp>
 
@@ -69,6 +70,14 @@ public:
     return ptr;
   };
   
+  ConstraintConstSharedPtr getConstraint(const std::string &name) const {
+    ConstraintConstSharedPtr ptr;
+    if (this->constraints_.find(name) == this->constraints_.end())
+      ptr.reset();
+    else
+      ptr = this->constraints_.find(name)->second;
+    return ptr;
+  };
   
   const std::string& getName() const {return name_;};
   void getLinks(std::vector<LinkSharedPtr >& links) const
@@ -85,6 +94,7 @@ public:
     this->links_.clear();
     this->joints_.clear();
     this->materials_.clear();
+    this->constraints_.clear();
     this->root_link_.reset();
   };
   
@@ -186,6 +196,8 @@ public:
   
   /// \brief complete list of Links
   std::map<std::string, LinkSharedPtr> links_;
+  /// \brief complete list of Constraints
+  std::map<std::string, ConstraintSharedPtr> constraints_;
   /// \brief complete list of Joints
   std::map<std::string, JointSharedPtr> joints_;
   /// \brief complete list of Materials
